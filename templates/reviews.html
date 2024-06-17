@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html> 
+	<head> 
+		<title>Reviews</title> 
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+		<script type=text/javascript>
+			let loadReviews = (url, next_token="") => {
+				$.post("/lazy-reviews", {url:url, next_token:next_token}, function(data){
+					let newReviewsHtml = "<div>"
+					for (let idx in data["reviews"]){
+						newReviewsHtml += `<h3> ${data["reviews"][idx]["name"]} </h3> <div> ${data["reviews"][idx]["review"]} </div>`;
+					}
+					newReviewsHtml += "</div>"
+					$("#reviews").append(newReviewsHtml);
+					$("#load-more").attr("data-next-token", data["next_token"]);
+					if(data["next_token"] == ""){
+						$("#load-more").hide()
+					}
+				});
+			};
+
+			$(document).ready(function(){
+				loadReviews($("#load-more").attr("data-url"));
+				$("#load-more").on('click', function(e) {
+					e.preventDefault();
+					loadReviews($(this).attr("data-url"), $("#load-more").attr("data-next-token"));
+				});
+			});
+		</script>
+	</head> 
+	<body> 
+		<div id="reviews">
+			<!-- {% for review in reviews %} -->
+			<!-- <h3> {{review['name']}} </h3> -->
+			<!-- <div> {{review['review']}} </div> -->
+			<!-- {% endfor %} -->
+		</div>
+		<br/>
+		<button id="load-more" data-url="{{url}}" data-next-token="{{next_token}}">Load More</button>
+	</body> 
+</html>
