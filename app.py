@@ -20,7 +20,7 @@ def load_reviews_lazy():
             next_token = ""
         else:
             next_token = request.form['next_token']
-        reviews, new_token = review_scraper.get_reviews_sub(request.form["url"], next_token)
+        reviews, new_token = review_scraper.get_reviews_sub(url=request.form["url"], next_token=next_token)
         print("Token: ", new_token)
         return jsonify({'reviews':reviews, 'next_token':new_token})
 

@@ -8,7 +8,12 @@
 				$.post("/lazy-reviews", {url:url, next_token:next_token}, function(data){
 					let newReviewsHtml = "<div>"
 					for (let idx in data["reviews"]){
-						newReviewsHtml += `<h3> ${data["reviews"][idx]["name"]} </h3> <div> ${data["reviews"][idx]["review"]} </div>`;
+						ownerResponseHtml = `<div>&nbsp;&nbsp;Response from owner: ${data["reviews"][idx]["owner_response"]} </div>`
+						newReviewsHtml += `<h3> ${data["reviews"][idx]["name"]} </h3> <div> <div>Rating ${data["reviews"][idx]["rating"]} out of 5.0</div> <div>${data["reviews"][idx]["review"]}</div>`;
+						if (data["reviews"][idx]["owner_response"] != null){
+							newReviewsHtml += ownerResponseHtml
+						}
+						newReviewsHtml += "</div>"
 					}
 					newReviewsHtml += "</div>"
 					$("#reviews").append(newReviewsHtml);
