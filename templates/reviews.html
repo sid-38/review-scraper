@@ -13,7 +13,7 @@
 						if (data["reviews"][idx]["owner_response"] != null){
 							newReviewsHtml += ownerResponseHtml
 						}
-						newReviewsHtml += "</div>"
+						newReviewsHtml += `<div><a href=${data["reviews"][idx]["review_url"]}>Reply</a></div></div>`
 					}
 					newReviewsHtml += "</div>"
 					$("#reviews").append(newReviewsHtml);
